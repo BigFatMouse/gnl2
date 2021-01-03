@@ -15,6 +15,6 @@ int	main(void)
 	}
 	printf("%d: %s\n", a, line);
 	free (line);
-//    while(1);
+    //while(1); 
     return (0);
 }

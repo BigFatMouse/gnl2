@@ -6,7 +6,7 @@
 /*   By: mhogg <mhogg@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 21:31:00 by mhogg             #+#    #+#             */
-/*   Updated: 2020/12/20 12:49:40 by mhogg            ###   ########.fr       */
+/*   Updated: 2020/12/28 00:30:28 by mhogg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		ft_strlen (const char *str);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(const char *s1);
-size_t	ft_strcpy(char *dst, const char *src);
+void	ft_strcpy(char *dst, const char *src);
 
 #endif
 

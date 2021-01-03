@@ -1,66 +1,64 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhogg <mhogg@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 21:29:20 by mhogg             #+#    #+#             */
-/*   Updated: 2020/12/29 22:48:29 by mhogg            ###   ########.fr       */
+/*   Updated: 2020/12/29 22:48:24 by mhogg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	ft_fill_line(char *str, char *remain, char **line)
+char	*ft_check_remain(char *remain, char **line)
 {
 	char	*end;
-	int		a;
 
-	a = 0;
-	if ((end = ft_strchr(str, '\n')))
+	*line = (malloc(1));
+	(*line)[0] = '\0';
+	end = NULL;
+	if ((end = ft_strchr(remain, '\n')))
 	{
 		*end = '\0';
-		if (!(*line = ft_strjoin(*line, str)))
-		{
-			free(line);
-			return (-1);
-		}
+		*line = ft_strjoin(*line, remain);
 		ft_strcpy(remain, ++end);
-		a = 1;
 	}
-	else	if (!(*line = ft_strjoin(*line, str)))
-	{
-		free(line);
-		return (-1);
-	}
-	return (a);
+	else
+		*line = ft_strjoin(*line, remain);
+	return (end);
 }
 
-int	get_next_line(int fd, char **line)
+int		ft_free_remain(char *remain)
+{
+	remain[0] = '\0';
+	return (0);
+}
+
+int		get_next_line(int fd, char **line)
 {
 	char		buff[BUFFER_SIZE + 1];
-	static char	remain[BUFFER_SIZE + 1];
 	int			rb;
-	int			flag;
+	char		*end;
+	static char	remain[BUFFER_SIZE + 1];
 
 	rb = 1;
-	*line = malloc(1);
-	if (line == NULL || *line == NULL || read(fd, 0, 0) < 0)
+	if (line == NULL || read(fd, 0, 0) < 0)
 		return (-1);
-	**line = '\0';
-	if ((flag = ft_fill_line(remain, remain, line)) == -1)
-		return (-1);
-	while (!flag && (rb = read(fd, buff, BUFFER_SIZE)))
+	end = ft_check_remain(remain, line);
+	while (!end && (rb = read(fd, buff, BUFFER_SIZE)))
 	{
 		buff[rb] = '\0';
-		if ((flag = ft_fill_line(buff, remain, line)) == -1)
+		if ((end = ft_strchr(buff, '\n')))
+		{
+			*end = '\0';
+			ft_strcpy(remain, ++end);
+		}
+		if (!(*line = ft_strjoin(*line, buff)))
 			return (-1);
 	}
 	if (rb == 0)
-	{
-		remain[rb] = '\0';
-		return (0);
-	}
+		return (ft_free_remain(remain));
 	return (1);
 }

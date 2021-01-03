@@ -6,11 +6,22 @@
 /*   By: mhogg <mhogg@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 21:29:20 by mhogg             #+#    #+#             */
-/*   Updated: 2020/12/29 22:48:29 by mhogg            ###   ########.fr       */
+/*   Updated: 2020/12/29 22:41:56 by mhogg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+int	ft_free_all(char *buff, char *remain, char **line)
+{
+	if (*line)
+		free(*line);
+	if (buff)
+		free(buff);
+	if (remain)
+		free(remain);
+	return (-1);
+}
 
 int	ft_fill_line(char *str, char *remain, char **line)
 {
@@ -22,45 +33,47 @@ int	ft_fill_line(char *str, char *remain, char **line)
 	{
 		*end = '\0';
 		if (!(*line = ft_strjoin(*line, str)))
-		{
-			free(line);
 			return (-1);
-		}
 		ft_strcpy(remain, ++end);
 		a = 1;
 	}
 	else	if (!(*line = ft_strjoin(*line, str)))
-	{
-		free(line);
 		return (-1);
-	}
 	return (a);
+}
+
+int	ft_free_remain(char *remain)
+{
+	free(remain);
+	remain = NULL;
+	return (0);
 }
 
 int	get_next_line(int fd, char **line)
 {
-	char		buff[BUFFER_SIZE + 1];
-	static char	remain[BUFFER_SIZE + 1];
+	char		*buff;
+	static char	*remain;
 	int			rb;
 	int			flag;
 
 	rb = 1;
 	*line = malloc(1);
-	if (line == NULL || *line == NULL || read(fd, 0, 0) < 0)
-		return (-1);
+	buff = malloc(BUFFER_SIZE + 1);
+	if (!remain)
+		remain = malloc(BUFFER_SIZE + 1);
+	if (read(fd, 0, 0) < 0 || !line || !*line || !buff || !remain)
+		return (ft_free_all(buff, remain, line));
 	**line = '\0';
 	if ((flag = ft_fill_line(remain, remain, line)) == -1)
-		return (-1);
+		return (ft_free_all(buff, remain, line));
 	while (!flag && (rb = read(fd, buff, BUFFER_SIZE)))
 	{
 		buff[rb] = '\0';
 		if ((flag = ft_fill_line(buff, remain, line)) == -1)
-			return (-1);
+			return (ft_free_all(buff, remain, line));
 	}
+	free(buff);
 	if (rb == 0)
-	{
-		remain[rb] = '\0';
-		return (0);
-	}
+		return (ft_free_remain(remain));
 	return (1);
 }
