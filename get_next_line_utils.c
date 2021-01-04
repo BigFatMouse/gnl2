@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhogg <mhogg@student.21-school.ru>         +#+  +:+       +#+        */
+/*   By: mhogg <mhogg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/16 00:58:53 by mhogg             #+#    #+#             */
-/*   Updated: 2020/12/28 00:53:55 by mhogg            ###   ########.fr       */
+/*   Updated: 2021/01/03 21:19:44 by mhogg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-void	ft_strcpy(char *dst, const char *src)
+size_t	ft_strcpy(char *dst, const char *src)
 {
 	size_t	len;
 	size_t	i;
@@ -81,4 +81,5 @@ void	ft_strcpy(char *dst, const char *src)
 		i++;
 	}
 	dst[i] = '\0';
+	return (len);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhogg <mhogg@student.21-school.ru>         +#+  +:+       +#+        */
+/*   By: mhogg <mhogg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 21:31:00 by mhogg             #+#    #+#             */
-/*   Updated: 2020/12/28 00:30:28 by mhogg            ###   ########.fr       */
+/*   Updated: 2021/01/03 21:22:50 by mhogg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ int		get_next_line(int fd, char **line);
 int		ft_strlen (const char *str);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strchr(const char *s, int c);
-char	*ft_strdup(const char *s1);
-void	ft_strcpy(char *dst, const char *src);
+size_t	ft_strcpy(char *dst, const char *src);
 
 #endif
 

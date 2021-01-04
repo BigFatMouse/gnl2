@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhogg <mhogg@student.21-school.ru>         +#+  +:+       +#+        */
+/*   By: mhogg <mhogg@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 21:29:20 by mhogg             #+#    #+#             */
-/*   Updated: 2020/12/29 22:48:29 by mhogg            ###   ########.fr       */
+/*   Updated: 2021/01/03 23:24:18 by mhogg            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_fill_line(char *str, char *remain, char **line)
 		*end = '\0';
 		if (!(*line = ft_strjoin(*line, str)))
 		{
-			free(line);
+			free(*line);
 			return (-1);
 		}
 		ft_strcpy(remain, ++end);
@@ -31,7 +31,7 @@ int	ft_fill_line(char *str, char *remain, char **line)
 	}
 	else	if (!(*line = ft_strjoin(*line, str)))
 	{
-		free(line);
+		free(*line);
 		return (-1);
 	}
 	return (a);
@@ -44,9 +44,10 @@ int	get_next_line(int fd, char **line)
 	int			rb;
 	int			flag;
 
-	rb = 1;
+	if (BUFFER_SIZE <= 0 || !line || fd < 0 || read(fd, 0, 0) < 0)
+		return (-1);
 	*line = malloc(1);
-	if (line == NULL || *line == NULL || read(fd, 0, 0) < 0)
+	if (!*line)
 		return (-1);
 	**line = '\0';
 	if ((flag = ft_fill_line(remain, remain, line)) == -1)
@@ -57,9 +58,9 @@ int	get_next_line(int fd, char **line)
 		if ((flag = ft_fill_line(buff, remain, line)) == -1)
 			return (-1);
 	}
-	if (rb == 0)
+	if (flag == 0)
 	{
-		remain[rb] = '\0';
+		*remain = '\0';
 		return (0);
 	}
 	return (1);
